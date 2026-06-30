@@ -1,1 +1,1076 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayasan Riyadl Ash-Sholihin - Portal Pendaftaran & Informasi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Arabic+Noto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables untuk Tema Warna Dinamis yang Bisa Diubah oleh Admin */
+        :root {
+            --primary: #065f46;
+            --primary-dark: #022c22;
+            --primary-light: #ecfdf5;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --accent-text: #022c22;
+        }
 
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .arabic {
+            font-family: 'Arabic Noto', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVIGATION -->
+    <nav class="bg-[var(--primary)] text-white sticky top-0 z-50 shadow-md transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white p-2 rounded-full w-12 h-12 flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-mosque text-[var(--primary)] text-2xl transition-colors duration-300"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg block leading-tight tracking-wide">RIYADL ASH-SHOLIHIN</span>
+                        <span class="text-xs text-white/80 block">Yayasan & Pondok Pesantren</span>
+                    </div>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-1 lg:space-x-4 items-center">
+                    <button onclick="switchTab('beranda')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition" id="nav-beranda">Beranda</button>
+                    <button onclick="switchTab('lembaga')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition" id="nav-lembaga">Lembaga</button>
+                    <button onclick="switchTab('pendaftaran')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--accent-text)] font-semibold transition shadow-md" id="nav-pendaftaran"><i class="fa-solid fa-file-signature mr-1"></i> Daftar Sekarang</button>
+                    <button onclick="switchTab('pengumuman')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition" id="nav-pengumuman">Pengumuman</button>
+                    <button onclick="switchTab('galeri')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 transition" id="nav-galeri">Galeri</button>
+                    <span class="text-white/30">|</span>
+                    <button onclick="switchTab('admin')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium bg-black/20 hover:bg-black/30 transition flex items-center gap-1" id="nav-admin"><i class="fa-solid fa-user-gear"></i> Admin</button>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="text-white hover:text-white/80 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[var(--primary-dark)] px-4 pt-2 pb-4 space-y-2 border-t border-white/10">
+            <button onclick="switchTab('beranda'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-white/10">Beranda</button>
+            <button onclick="switchTab('lembaga'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-white/10">Lembaga</button>
+            <button onclick="switchTab('pendaftaran'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-[var(--accent)] text-[var(--accent-text)] font-bold hover:bg-[var(--accent-hover)]">Daftar Sekarang</button>
+            <button onclick="switchTab('pengumuman'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-white/10">Pengumuman</button>
+            <button onclick="switchTab('galeri'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-white/10">Galeri</button>
+            <div class="border-t border-white/10 my-2"></div>
+            <button onclick="switchTab('admin'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-black/30 text-[var(--accent)] hover:bg-black/50"><i class="fa-solid fa-user-gear mr-2"></i>Panel Admin</button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow">
+        
+        <!-- SECTION 1: BERANDA -->
+        <div id="section-beranda" class="tab-content">
+            <!-- Hero Banner -->
+            <div class="relative bg-[var(--primary-dark)] text-white py-24 px-4 overflow-hidden transition-colors duration-300">
+                <div class="absolute inset-0 bg-cover bg-center opacity-20" id="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1200');"></div>
+                <div class="relative max-w-5xl mx-auto text-center z-10">
+                    <span class="px-4 py-1.5 bg-[var(--accent)]/20 text-[var(--accent)] rounded-full text-xs font-semibold tracking-wider uppercase inline-block mb-4">Penerimaan Santri & Siswa Baru 2026/2027</span>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight">Membentuk Generasi Qur'ani, Berakhlak Mulia & Berprestasi</h1>
+                    <p class="text-white/90 text-lg md:text-xl max-w-3xl mx-auto mb-8 font-light">Selamat datang di Yayasan Riyadl Ash-Sholihin. Kami berkomitmen menyelenggarakan pendidikan holistik yang memadukan khazanah pesantren klasik dengan sains teknologi modern.</p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="switchTab('pendaftaran')" class="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--accent-text)] font-bold px-8 py-4 rounded-xl transition shadow-lg transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Daftar Online Sekarang
+                        </button>
+                        <button onclick="switchTab('lembaga')" class="bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/20 font-semibold px-8 py-4 rounded-xl transition">
+                            Pelajari Lembaga Kami
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Welcome Message / Sambutan -->
+            <div class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-5 relative">
+                        <div class="absolute -top-4 -left-4 w-72 h-72 bg-[var(--primary)]/10 rounded-3xl -z-10 mix-blend-multiply filter blur-xl opacity-70"></div>
+                        <img id="welcome-photo" src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=600" alt="Sambutan Pimpinan" class="rounded-2xl shadow-2xl w-full object-cover h-[400px]">
+                        <div class="absolute bottom-4 right-4 bg-[var(--primary)] text-white p-4 rounded-xl shadow-lg max-w-xs transition-colors duration-300">
+                            <p class="text-xs italic text-white/80">"Pendidikan adalah menuntun tumbuh kembangnya fitrah iman dan kecerdasan anak didik."</p>
+                            <p class="text-sm font-bold mt-2">- KH. Ahmad Sholihin, M.Pd</p>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-7">
+                        <span class="text-[var(--primary)] font-bold uppercase tracking-widest text-sm block mb-2 transition-colors duration-300">Kata Sambutan</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Mendidik dengan Hati, Membimbing dengan Sunnah</h2>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            Assalamu’alaikum Warahmatullahi Wabarakatuh. Segala puji bagi Allah Swt. yang telah memberikan nikmat iman, Islam, dan kesehatan kepada kita semua. Di era digitalisasi ini, tantangan mendidik anak semakin dinamis. Oleh karena itu, Yayasan Riyadl Ash-Sholihin hadir sebagai partner terbaik bagi orang tua.
+                        </p>
+                        <p class="text-slate-600 leading-relaxed mb-6">
+                            Kami memadukan kurikulum nasional dari Kementerian Agama dan Kemendikbudristek dengan nilai pondok pesantren yang mengedepankan adab, hafalan Al-Qur'an (Tahfidz), penguasaan kitab kuning, serta bekal keterampilan teknologi informasi di tingkat kejuruan.
+                        </p>
+                        <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200">
+                            <div>
+                                <span class="block text-3xl font-extrabold text-[var(--primary)] transition-colors duration-300">5+</span>
+                                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Pilihan Lembaga</span>
+                            </div>
+                            <div>
+                                <span class="block text-3xl font-extrabold text-[var(--primary)] transition-colors duration-300">1200+</span>
+                                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Santri Aktif</span>
+                            </div>
+                            <div>
+                                <span class="block text-3xl font-extrabold text-[var(--primary)] transition-colors duration-300">100%</span>
+                                <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Amanah & Legal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program Unggulan -->
+            <div class="bg-[var(--primary-light)] py-16 transition-colors duration-300">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <h2 class="text-3xl font-extrabold text-slate-950">Mengapa Riyadl Ash-Sholihin?</h2>
+                        <p class="text-slate-600 mt-2">Fasilitas unggulan dan komitmen kami untuk memberikan kualitas pendidikan spiritual dan akademis terbaik.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center mb-6 text-xl transition-colors duration-300">
+                                <i class="fa-solid fa-book-quran"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-slate-900">Program Tahfidz Intensif</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">Metode setoran hafalan yang teratur, dibimbing langsung oleh Hafidz/Hafidzah ber-sanad hingga khatam 30 Juz.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center mb-6 text-xl transition-colors duration-300">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-slate-900">Kurikulum Integratif</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">Kombinasi sains modern, teknologi, bahasa asing (Arab/Inggris), serta pendalaman materi kitab kuning.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                            <div class="w-12 h-12 rounded-xl bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center mb-6 text-xl transition-colors duration-300">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-slate-900">Lingkungan Berkarakter</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">Pendidikan akhlakul karimah yang diterapkan 24 jam dalam kehidupan asrama pesantren yang disiplin dan kekeluargaan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: LEMBAGA -->
+        <div id="section-lembaga" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-[var(--primary)] font-bold uppercase tracking-wider text-sm block mb-1 transition-colors duration-300">Unit Pendidikan</span>
+                    <h2 class="text-3xl font-extrabold text-slate-950">Jenjang Pendidikan Yayasan</h2>
+                    <p class="text-slate-600 mt-2">Kami menyediakan layanan pendidikan dari anak usia dini hingga tingkat menengah kejuruan dan asrama pesantren.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- RA -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-lg transition flex flex-col h-full">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=400" alt="Raudhatul Athfal (RA)" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">PAUD / TK</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">Raudhatul Athfal (RA)</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">Pendidikan anak usia dini berbasis nilai-nilai keislaman dasar, pengenalan huruf hijaiyah, dan pembentukan karakter ceria mandiri.</p>
+                            </div>
+                            <button onclick="bukaFormPendaftaran('RA')" class="w-full bg-slate-100 hover:bg-[var(--primary)] hover:text-white transition py-2.5 rounded-lg text-sm font-semibold text-[var(--primary)] transition-colors duration-300">Daftar di RA</button>
+                        </div>
+                    </div>
+
+                    <!-- MI -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-lg transition flex flex-col h-full">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="Madrasah Ibtidaiyah (MI)" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">SD / MI</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">Madrasah Ibtidaiyah (MI)</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">Pendidikan dasar setara SD dengan porsi kurikulum keagamaan Islam (Fikih, Aqidah, Sejarah Islam) yang lebih padat, menyenangkan & berprestasi.</p>
+                            </div>
+                            <button onclick="bukaFormPendaftaran('MI')" class="w-full bg-slate-100 hover:bg-[var(--primary)] hover:text-white transition py-2.5 rounded-lg text-sm font-semibold text-[var(--primary)] transition-colors duration-300">Daftar di MI</button>
+                        </div>
+                    </div>
+
+                    <!-- MTs -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-lg transition flex flex-col h-full">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=400" alt="Madrasah Tsanawiyah (MTs)" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">SMP / MTs</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">Madrasah Tsanawiyah (MTs)</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">Pendidikan tingkat menengah pertama setara SMP, mengintegrasikan kurikulum madrasah formal Kemenag dengan bimbingan akhlak dan hafalan juz amma.</p>
+                            </div>
+                            <button onclick="bukaFormPendaftaran('MTS')" class="w-full bg-slate-100 hover:bg-[var(--primary)] hover:text-white transition py-2.5 rounded-lg text-sm font-semibold text-[var(--primary)] transition-colors duration-300">Daftar di MTs</button>
+                        </div>
+                    </div>
+
+                    <!-- SMK -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-lg transition flex flex-col h-full">
+                        <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&q=80&w=400" alt="SMK Riyadl Ash-Sholihin" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">SMA / SMK</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">SMK Riyadl Ash-Sholihin</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">Menyiapkan tenaga kerja profesional dan wirausahawan beriman. Jurusan unggulan: Rekayasa Perangkat Lunak (RPL) & Teknik Kendaraan Ringan (TKR).</p>
+                            </div>
+                            <button onclick="bukaFormPendaftaran('SMK')" class="w-full bg-slate-100 hover:bg-[var(--primary)] hover:text-white transition py-2.5 rounded-lg text-sm font-semibold text-[var(--primary)] transition-colors duration-300">Daftar di SMK</button>
+                        </div>
+                    </div>
+
+                    <!-- PONDOK PESANTREN -->
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-lg transition flex flex-col h-full md:col-span-2 lg:col-span-1">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400" alt="Pondok Pesantren" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full uppercase">Non-Formal / Asrama</span>
+                                <h3 class="text-xl font-bold text-slate-900 mt-2 mb-2">Pondok Pesantren</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mb-4">Lembaga kepesantrenan berasrama 24 jam. Fokus pada kajian Kitab Kuning (Salafiyah), Tahfidz Quran 30 Juz, Praktik Ibadah, dan Penguasaan Bahasa Arab-Inggris.</p>
+                            </div>
+                            <button onclick="bukaFormPendaftaran('PONPES')" class="w-full bg-slate-100 hover:bg-[var(--primary)] hover:text-white transition py-2.5 rounded-lg text-sm font-semibold text-[var(--primary)] transition-colors duration-300">Daftar di Ponpes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: PENDAFTARAN (FORMULIR) -->
+        <div id="section-pendaftaran" class="tab-content hidden py-12">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+                    <div class="bg-[var(--primary)] text-white p-8 text-center transition-colors duration-300">
+                        <h2 class="text-2xl font-bold mb-2">Formulir Pendaftaran Online</h2>
+                        <p class="text-white/80 text-sm">Isilah data calon santri/siswa baru secara lengkap dan benar.</p>
+                    </div>
+
+                    <!-- Status Pengiriman Alert -->
+                    <div id="alert-form" class="hidden mx-8 mt-6 p-4 rounded-xl flex items-center gap-3">
+                        <i id="alert-icon" class="fa-solid"></i>
+                        <div id="alert-msg" class="text-sm font-medium"></div>
+                    </div>
+
+                    <form id="pendaftaranForm" onsubmit="handleFormSubmit(event)" class="p-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Pilihan Lembaga -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Pilih Lembaga / Jenjang yang Dituju <span class="text-red-500">*</span></label>
+                                <select id="form-jenjang" name="jenjang" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition bg-slate-50 font-semibold">
+                                    <option value="" disabled selected>-- Pilih Lembaga --</option>
+                                    <option value="RA">Raudhatul Athfal (RA) / TK</option>
+                                    <option value="MI">Madrasah Ibtidaiyah (MI) / SD</option>
+                                    <option value="MTS">Madrasah Tsanawiyah (MTs) / SMP</option>
+                                    <option value="SMK">SMK Riyadl Ash-Sholihin / Kejuruan</option>
+                                    <option value="PONPES">Pondok Pesantren (Saja / Tanpa Sekolah Formal)</option>
+                                </select>
+                            </div>
+
+                            <!-- Nama Lengkap -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap Calon Pendaftar <span class="text-red-500">*</span></label>
+                                <input type="text" name="nama" required placeholder="Sesuai Akta Kelahiran / KK" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- NISN -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">NISN <span class="text-xs text-slate-400">(Kecuali RA)</span></label>
+                                <input type="text" name="nisn" placeholder="Nomor Induk Siswa Nasional" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- Jenis Kelamin -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Kelamin <span class="text-red-500">*</span></label>
+                                <div class="flex items-center space-x-6 py-3">
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="jk" value="Laki-laki" required class="w-4 h-4 text-[var(--primary)] focus:ring-[var(--primary)] border-gray-300">
+                                        <span class="text-sm text-slate-700">Laki-laki</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="radio" name="jk" value="Perempuan" class="w-4 h-4 text-[var(--primary)] focus:ring-[var(--primary)] border-gray-300">
+                                        <span class="text-sm text-slate-700">Perempuan</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Tempat Lahir -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Tempat Lahir <span class="text-red-500">*</span></label>
+                                <input type="text" name="tempat_lahir" required placeholder="Kota Lahir" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- Tanggal Lahir -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Tanggal Lahir <span class="text-red-500">*</span></label>
+                                <input type="date" name="tanggal_lahir" required class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- Nama Orang Tua Wali -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nama Orang Tua / Wali <span class="text-red-500">*</span></label>
+                                <input type="text" name="ortu" required placeholder="Nama Ayah / Ibu / Wali" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- No WhatsApp -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nomor WhatsApp Aktif <span class="text-red-500">*</span></label>
+                                <input type="tel" name="whatsapp" required placeholder="Contoh: 081234567890" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition">
+                            </div>
+
+                            <!-- Alamat Lengkap -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Alamat Rumah Lengkap <span class="text-red-500">*</span></label>
+                                <textarea name="alamat" required rows="3" placeholder="Dusun, RT/RW, Desa/Kelurahan, Kecamatan, Kabupaten/Kota" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] outline-none transition"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Persetujuan -->
+                        <div class="flex items-start gap-3 pt-2">
+                            <input type="checkbox" required id="persetujuan" class="mt-1 w-4 h-4 text-[var(--primary)] rounded focus:ring-[var(--primary)] border-slate-300">
+                            <label for="persetujuan" class="text-xs text-slate-500 cursor-pointer">Saya menyatakan bahwa semua data yang saya masukkan di atas adalah benar dan dapat dipertanggungjawabkan serta menyetujui syarat & ketentuan penerimaan di Riyadl Ash-Sholihin.</label>
+                        </div>
+
+                        <!-- Tombol Submit -->
+                        <div class="pt-4">
+                            <button type="submit" id="btn-submit" class="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--accent-text)] font-bold py-4 rounded-xl transition duration-150 shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Kirim Formulir Pendaftaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: PENGUMUMAN -->
+        <div id="section-pengumuman" class="tab-content hidden py-12">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-[var(--primary)] font-bold uppercase tracking-wider text-sm block mb-1 transition-colors duration-300">Informasi Resmi</span>
+                    <h2 class="text-3xl font-extrabold text-slate-950">Mading Pengumuman Yayasan</h2>
+                </div>
+
+                <div id="announcement-list" class="space-y-6">
+                    <!-- Announcements loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: GALERI -->
+        <div id="section-galeri" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-[var(--primary)] font-bold uppercase tracking-wider text-sm block mb-1 transition-colors duration-300">Album Foto</span>
+                    <h2 class="text-3xl font-extrabold text-slate-950">Dokumentasi Kegiatan & Fasilitas</h2>
+                </div>
+
+                <div id="gallery-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Gallery Items loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: PANEL ADMIN -->
+        <div id="section-admin" class="tab-content hidden py-12">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                
+                <!-- Admin Login -->
+                <div id="admin-login" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-slate-100 text-[var(--primary)] rounded-full flex items-center justify-center mx-auto mb-3 text-2xl transition-colors duration-300">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900">Panel Administrator</h3>
+                        <p class="text-sm text-slate-500 mt-1">Gunakan PIN default "1234" untuk masuk</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Masukkan PIN Admin</label>
+                            <input type="password" id="admin-pin" placeholder="••••" class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[var(--primary)] outline-none text-center font-bold text-2xl tracking-widest">
+                        </div>
+                        <button onclick="checkAdminLogin()" class="w-full bg-[var(--primary)] hover:opacity-90 text-white font-bold py-3 rounded-xl transition transition-colors duration-300">
+                            Buka Panel Admin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Dashboard (Hidden by default) -->
+                <div id="admin-dashboard" class="hidden space-y-8">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[var(--primary-dark)] text-white p-6 rounded-2xl shadow-lg transition-colors duration-300">
+                        <div>
+                            <h2 class="text-2xl font-bold">Halo Admin Riyadl Ash-Sholihin!</h2>
+                            <p class="text-white/80 text-sm mt-1">Gunakan panel ini untuk mengedit tema, foto, pengumuman, dan setting Google Sheets.</p>
+                        </div>
+                        <button onclick="logoutAdmin()" class="bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-xl text-sm transition">
+                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Keluar
+                        </button>
+                    </div>
+
+                    <!-- Grid Controls -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        
+                        <!-- TAB KIRI: CONFIGURATION FORM -->
+                        <div class="lg:col-span-5 space-y-6">
+                            
+                            <!-- Edit Tema Warna Website (NEW FEATURE) -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-4 border-b pb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-palette"></i> Atur Tema Warna Website
+                                </h3>
+                                <p class="text-xs text-slate-500 mb-4">Ganti skema warna seluruh tampilan website Anda dalam satu klik:</p>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="changeThemePreset('hijau')" class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-emerald-500 text-left transition">
+                                        <span class="w-4 h-4 rounded-full bg-emerald-700 block shrink-0"></span>
+                                        <span class="text-xs font-semibold text-slate-700">Hijau Islami</span>
+                                    </button>
+                                    <button onclick="changeThemePreset('biru')" class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-blue-500 text-left transition">
+                                        <span class="w-4 h-4 rounded-full bg-blue-800 block shrink-0"></span>
+                                        <span class="text-xs font-semibold text-slate-700">Biru Edukasi</span>
+                                    </button>
+                                    <button onclick="changeThemePreset('maroon')" class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-red-700 text-left transition">
+                                        <span class="w-4 h-4 rounded-full bg-red-800 block shrink-0"></span>
+                                        <span class="text-xs font-semibold text-slate-700">Merah Maroon</span>
+                                    </button>
+                                    <button onclick="changeThemePreset('tosca')" class="flex items-center gap-2 p-3 rounded-xl border border-slate-200 hover:border-teal-700 text-left transition">
+                                        <span class="w-4 h-4 rounded-full bg-teal-700 block shrink-0"></span>
+                                        <span class="text-xs font-semibold text-slate-700">Tosca Modern</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Google Sheet Config -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-4 border-b pb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Integrasi Google Sheet
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Web App URL (Google Apps Script)</label>
+                                        <input type="text" id="config-gsheet-url" placeholder="Paste link Apps Script di sini..." class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                        <p class="text-[10px] text-slate-400 mt-1">Formulir pendaftaran akan dikirim ke url ini jika sudah diisi. Jika kosong, data hanya diuji coba di browser.</p>
+                                    </div>
+                                    <button onclick="saveGSheetConfig()" class="w-full bg-[var(--primary)] hover:opacity-90 text-white font-semibold py-2 rounded-xl text-sm transition transition-colors duration-300">
+                                        Simpan URL Google Sheets
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Edit Foto Hero & Welcome -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-4 border-b pb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-images"></i> Setting Foto Tampilan Web
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Banner Utama (URL Foto)</label>
+                                        <input type="text" id="config-hero-photo" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Foto Sambutan Pimpinan (URL Foto)</label>
+                                        <input type="text" id="config-welcome-photo" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                    </div>
+                                    <button onclick="savePhotosConfig()" class="w-full bg-[var(--primary)] hover:opacity-90 text-white font-semibold py-2 rounded-xl text-sm transition transition-colors duration-300">
+                                        Perbarui Foto Web
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Tambah / Edit Galeri Foto -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-4 border-b pb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-square-plus"></i> Tambah Foto Galeri Baru
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Judul / Caption Foto</label>
+                                        <input type="text" id="galeri-title" placeholder="cth: Wisuda Tahfidz RA" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">URL Link Gambar</label>
+                                        <input type="text" id="galeri-url" placeholder="https://unsplash.com/..." class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Kategori</label>
+                                        <select id="galeri-category" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                            <option value="Kegiatan">Kegiatan</option>
+                                            <option value="Fasilitas">Fasilitas</option>
+                                            <option value="Santri">Santri</option>
+                                        </select>
+                                    </div>
+                                    <button onclick="addGalleryItem()" class="w-full bg-[var(--primary)] hover:opacity-90 text-white font-semibold py-2 rounded-xl text-sm transition transition-colors duration-300">
+                                        Tambahkan ke Galeri
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB KANAN: PENGUMUMAN & PENDAFTAR -->
+                        <div class="lg:col-span-7 space-y-6">
+                            
+                            <!-- Kelola Pengumuman -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-4 border-b pb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-bullhorn"></i> Tulis Pengumuman Baru
+                                </h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Judul Pengumuman</label>
+                                        <input type="text" id="ann-title" placeholder="cth: Hasil Seleksi MI Gelombang 1" class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[var(--primary)] outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Isi Detail Pengumuman</label>
+                                        <textarea id="ann-content" rows="4" placeholder="Tulis isi pengumuman lengkap..." class="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[var(--primary)] outline-none"></textarea>
+                                    </div>
+                                    <button onclick="addAnnouncement()" class="w-full bg-[var(--accent)] hover:opacity-90 text-[var(--accent-text)] font-bold py-2 rounded-xl text-sm transition">
+                                        Siarkan Pengumuman
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- List Pengumuman Aktif (untuk hapus) -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Pengumuman Terpasang</h3>
+                                <div id="admin-ann-list" class="space-y-3">
+                                    <!-- List element template -->
+                                </div>
+                            </div>
+
+                            <!-- List Galeri Foto Terpasang (untuk hapus) -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Galeri Foto Terpasang</h3>
+                                <div id="admin-gal-list" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                    <!-- List element template -->
+                                </div>
+                            </div>
+
+                            <!-- Log Pendaftar Lokal (Backup Browser) -->
+                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 overflow-x-auto">
+                                <h3 class="text-lg font-bold text-[var(--primary)] mb-2 flex items-center gap-2 transition-colors duration-300">
+                                    <i class="fa-solid fa-list-check"></i> Log Pendaftaran (Cadangan Browser)
+                                </h3>
+                                <p class="text-xs text-slate-500 mb-4">Catatan di bawah adalah pendaftaran yang dilakukan selama Anda memakai browser ini (backup lokal).</p>
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-slate-100">
+                                            <th class="p-2 border">Nama</th>
+                                            <th class="p-2 border">Lembaga</th>
+                                            <th class="p-2 border">Wali</th>
+                                            <th class="p-2 border">WhatsApp</th>
+                                            <th class="p-2 border">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="local-applicants">
+                                        <!-- Applicants list loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[var(--primary-dark)] text-white/80 pt-12 pb-6 border-t border-white/10 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-2">
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="bg-white p-2 rounded-full w-10 h-10 flex items-center justify-center">
+                        <i class="fa-solid fa-mosque text-[var(--primary)] text-lg transition-colors duration-300"></i>
+                    </div>
+                    <span class="font-bold text-md text-white tracking-wider">RIYADL ASH-SHOLIHIN</span>
+                </div>
+                <p class="text-xs text-white/60 leading-relaxed mb-4 max-w-sm">Membina generasi Islam yang berilmu, bertakwa, santun secara sosial, dan siap menghadapi kemajuan zaman di era globalisasi.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-white/60 hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                    <a href="#" class="text-white/60 hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                    <a href="#" class="text-white/60 hover:text-white transition"><i class="fa-brands fa-youtube text-lg"></i></a>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="text-white/60 hover:text-white transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Lembaga Kami</h4>
+                <ul class="space-y-2 text-xs text-white/60">
+                    <li><button onclick="switchTab('lembaga')" class="hover:text-white">Raudhatul Athfal (RA)</button></li>
+                    <li><button onclick="switchTab('lembaga')" class="hover:text-white">Madrasah Ibtidaiyah (MI)</button></li>
+                    <li><button onclick="switchTab('lembaga')" class="hover:text-white">Madrasah Tsanawiyah (MTs)</button></li>
+                    <li><button onclick="switchTab('lembaga')" class="hover:text-white">SMK Riyadl Ash-Sholihin</button></li>
+                    <li><button onclick="switchTab('lembaga')" class="hover:text-white">Pondok Pesantren</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4 border-b border-white/10 pb-2">Hubungi Kami</h4>
+                <p class="text-xs text-white/60 leading-relaxed">
+                    <strong>Alamat:</strong> Jl. Pesantren No. 12, Desa Sholihin, Kabupaten Jawa Barat, Indonesia.<br><br>
+                    <strong>E-mail:</strong> info@riyadlashsholihin.sch.id<br>
+                    <strong>WhatsApp:</strong> +62 812-3456-7890
+                </p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-white/10 text-center text-xs text-white/40">
+            <p>&copy; 2026 Yayasan Riyadl Ash-Sholihin. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT & LOGIC WEBSITE -->
+    <script>
+        // DB LOKAL MOCKUP (Disimpan di localStorage agar state web tidak hilang)
+        const DEFAULT_PENGUMUMAN = [
+            {
+                id: 1,
+                date: "30 Juni 2026",
+                title: "Penerimaan Santri & Siswa Baru Gelombang I Dibuka",
+                content: "Assalamu'alaikum wr. wb. Kami mengumumkan bahwa Penerimaan Peserta Didik Baru (PPDB) Yayasan Riyadl Ash-Sholihin untuk semua jenjang (RA, MI, MTs, SMK, Ponpes) Tahun Pelajaran 2026/2027 Gelombang I resmi dibuka mulai hari ini hingga tanggal 31 Juli 2026. Segera daftarkan putra-putri terbaik Anda secara online melalui portal ini atau mendatangi sekretariat panitia."
+            },
+            {
+                id: 2,
+                date: "25 Juni 2026",
+                title: "Sosialisasi Program Kejuruan Unggulan RPL & TKR di SMK",
+                content: "SMK Riyadl Ash-Sholihin menyelenggarakan pendaftaran khusus beasiswa prestasi tahfidz bagi calon siswa SMK jurusan Rekayasa Perangkat Lunak dan Teknik Kendaraan Ringan. Seleksi ketat beasiswa akan diadakan langsung di Pondok Pesantren."
+            }
+        ];
+
+        const DEFAULT_GALERI = [
+            { id: 1, category: "Kegiatan", title: "Kegiatan Shalat Berjamaah", url: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400" },
+            { id: 2, category: "Fasilitas", title: "Asrama Santri yang Nyaman", url: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&q=80&w=400" },
+            { id: 3, category: "Santri", title: "Pelajaran Kitab Kuning", url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=400" },
+            { id: 4, category: "Kegiatan", title: "Ekstrakurikuler Komputer SMK", url: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=400" }
+        ];
+
+        // Memuat Konfigurasi Awal
+        let announcements = JSON.parse(localStorage.getItem('yayasan_announcements')) || DEFAULT_PENGUMUMAN;
+        let galleries = JSON.parse(localStorage.getItem('yayasan_galleries')) || DEFAULT_GALERI;
+        let applicants = JSON.parse(localStorage.getItem('yayasan_applicants')) || [];
+        let configGSheetUrl = localStorage.getItem('yayasan_gsheet_url') || "";
+        let configHeroPhoto = localStorage.getItem('yayasan_hero_photo') || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1200";
+        let configWelcomePhoto = localStorage.getItem('yayasan_welcome_photo') || "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=600";
+
+        // Konfigurasi Warna Tema Default/Tersimpan
+        let themePrimary = localStorage.getItem('yayasan_theme_primary') || "#065f46";
+        let themePrimaryDark = localStorage.getItem('yayasan_theme_dark') || "#022c22";
+        let themePrimaryLight = localStorage.getItem('yayasan_theme_light') || "#ecfdf5";
+        let themeAccent = localStorage.getItem('yayasan_theme_accent') || "#f59e0b";
+        let themeAccentHover = localStorage.getItem('yayasan_theme_accent_hover') || "#d97706";
+        let themeAccentText = localStorage.getItem('yayasan_theme_accent_text') || "#022c22";
+
+        // Inisialisasi Tampilan Saat Pertama Dimuat
+        window.onload = function() {
+            applyThemeColors();
+            renderWebData();
+            switchTab('beranda');
+        };
+
+        // Fungsi menerapkan warna tema dinamis ke CSS Variables
+        function applyThemeColors() {
+            document.documentElement.style.setProperty('--primary', themePrimary);
+            document.documentElement.style.setProperty('--primary-dark', themePrimaryDark);
+            document.documentElement.style.setProperty('--primary-light', themePrimaryLight);
+            document.documentElement.style.setProperty('--accent', themeAccent);
+            document.documentElement.style.setProperty('--accent-hover', themeAccentHover);
+            document.documentElement.style.setProperty('--accent-text', themeAccentText);
+        }
+
+        // Render semua data ke UI
+        function renderWebData() {
+            // Apply foto-foto config
+            const heroBg = document.getElementById('hero-bg');
+            if(heroBg) heroBg.style.backgroundImage = `url('${configHeroPhoto}')`;
+            
+            const welcomePhoto = document.getElementById('welcome-photo');
+            if(welcomePhoto) welcomePhoto.src = configWelcomePhoto;
+
+            // Load to Admin Config Input
+            document.getElementById('config-hero-photo').value = configHeroPhoto;
+            document.getElementById('config-welcome-photo').value = configWelcomePhoto;
+            document.getElementById('config-gsheet-url').value = configGSheetUrl;
+
+            // Render Announcements
+            const annList = document.getElementById('announcement-list');
+            annList.innerHTML = '';
+            announcements.forEach(item => {
+                annList.innerHTML += `
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition">
+                        <div class="flex items-center gap-2 text-xs text-[var(--primary)] font-semibold mb-3">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <span>${item.date}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">${item.title}</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">${item.content}</p>
+                    </div>
+                `;
+            });
+
+            // Render Gallery
+            const galleryCont = document.getElementById('gallery-container');
+            galleryCont.innerHTML = '';
+            galleries.forEach(item => {
+                galleryCont.innerHTML += `
+                    <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100 hover:shadow-md transition group">
+                        <div class="relative overflow-hidden h-48 bg-slate-200">
+                            <img src="${item.url}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                            <span class="absolute top-3 left-3 bg-[var(--primary)] text-white text-[10px] uppercase font-bold px-2 py-1 rounded-md">${item.category}</span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-sm font-semibold text-slate-900 leading-snug">${item.title}</h4>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render Admin Control: Announcements List
+            const adminAnnList = document.getElementById('admin-ann-list');
+            adminAnnList.innerHTML = '';
+            announcements.forEach(item => {
+                adminAnnList.innerHTML += `
+                    <div class="flex justify-between items-center bg-slate-50 p-3 rounded-lg border text-xs">
+                        <div class="font-semibold truncate max-w-[200px] sm:max-w-md">${item.title}</div>
+                        <button onclick="deleteAnnouncement(${item.id})" class="text-red-500 hover:text-red-700 px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+
+            // Render Admin Control: Gallery List
+            const adminGalList = document.getElementById('admin-gal-list');
+            adminGalList.innerHTML = '';
+            galleries.forEach(item => {
+                adminGalList.innerHTML += `
+                    <div class="relative bg-slate-100 rounded border overflow-hidden group">
+                        <img src="${item.url}" class="h-24 w-full object-cover">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                            <button onclick="deleteGalleryItem(${item.id})" class="text-white bg-red-600 rounded p-2 text-xs"><i class="fa-solid fa-trash"></i> Hapus</button>
+                        </div>
+                        <div class="p-1 text-[10px] truncate text-slate-700 font-medium bg-white text-center">${item.title}</div>
+                    </div>
+                `;
+            });
+
+            // Render Admin Control: Local Log Applicants
+            const localAppList = document.getElementById('local-applicants');
+            localAppList.innerHTML = '';
+            if(applicants.length === 0) {
+                localAppList.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Belum ada pendaftar masuk.</td></tr>`;
+            } else {
+                applicants.forEach((item, index) => {
+                    localAppList.innerHTML += `
+                        <tr class="hover:bg-slate-50 border-t">
+                            <td class="p-2 border font-medium">${item.nama}</td>
+                            <td class="p-2 border"><span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded">${item.jenjang}</span></td>
+                            <td class="p-2 border">${item.ortu}</td>
+                            <td class="p-2 border"><a href="https://wa.me/${item.whatsapp}" target="_blank" class="text-emerald-700 hover:underline"><i class="fa-brands fa-whatsapp text-emerald-600"></i> ${item.whatsapp}</a></td>
+                            <td class="p-2 border text-center">
+                                <button onclick="deleteApplicant(${index})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        // TABS SWITCHER
+        function switchTab(tabId) {
+            // Hide all sections
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Show requested section
+            const targetSection = document.getElementById(`section-${tabId}`);
+            if(targetSection) targetSection.classList.remove('hidden');
+
+            // Reset navigation styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20', 'text-white');
+            });
+
+            // Add active style
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                if (tabId === 'pendaftaran') {
+                    // Biarkan tombol pendaftaran tetap mencolok warna amber
+                } else {
+                    activeBtn.classList.add('bg-white/20', 'text-white');
+                }
+            }
+
+            // Scroll top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // MOBILE MENU TOGGLE
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // BUKA FORM DAN SET JENJANG
+        function bukaFormPendaftaran(jenjangCode) {
+            switchTab('pendaftaran');
+            document.getElementById('form-jenjang').value = jenjangCode;
+        }
+
+        // SUBMIT FORM KE GOOGLE SHEET & LOKAL BACKUP
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('pendaftaranForm');
+            const submitBtn = document.getElementById('btn-submit');
+            const alertBox = document.getElementById('alert-form');
+            const alertIcon = document.getElementById('alert-icon');
+            const alertMsg = document.getElementById('alert-msg');
+
+            // Ambil semua data form
+            const formData = new FormData(form);
+            const dataObj = {};
+            formData.forEach((value, key) => {
+                dataObj[key] = value;
+            });
+            // Tambahkan timestamp pendaftaran
+            dataObj['tanggal_daftar'] = new Date().toLocaleString('id-ID');
+
+            // Ubah button status loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memproses pendaftaran...`;
+
+            // Simpan lokal di browser (untuk backup jika offline atau belum setup Google Sheets)
+            applicants.unshift(dataObj);
+            localStorage.setItem('yayasan_applicants', JSON.stringify(applicants));
+
+            // Jika URL Google Sheet sudah di-setting
+            if (configGSheetUrl && configGSheetUrl.trim() !== "") {
+                // Kirim data menggunakan metode fetch POST / GET dengan JSONP atau CORS
+                const urlParams = new URLSearchParams();
+                for (const key in dataObj) {
+                    urlParams.append(key, dataObj[key]);
+                }
+
+                fetch(configGSheetUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: urlParams
+                })
+                .then(() => {
+                    tampilkanSuksesResponse(alertBox, alertIcon, alertMsg, form, submitBtn);
+                })
+                .catch(error => {
+                    console.error('Error sending to GSheet:', error);
+                    alertBox.className = "mx-8 mt-6 p-4 rounded-xl flex items-center gap-3 bg-amber-50 text-amber-800 border border-amber-200";
+                    alertIcon.className = "fa-solid fa-circle-exclamation text-xl";
+                    alertMsg.innerHTML = `Pendaftaran tersimpan lokal di browser web, namun gagal diteruskan ke Google Sheets. Silakan hubungi admin panitia secara langsung.`;
+                    alertBox.classList.remove('hidden');
+                    
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Formulir Pendaftaran`;
+                });
+            } else {
+                // Simulasi Sukses (Hanya tersimpan di Backup lokal karena URL Google Sheets kosong)
+                setTimeout(() => {
+                    tampilkanSuksesResponse(alertBox, alertIcon, alertMsg, form, submitBtn);
+                    alertMsg.innerHTML = `Pendaftaran Anda BERHASIL disimulasikan (Tersimpan di log lokal browser web). Silakan hubungkan link Google Sheets Anda di menu Admin untuk integrasi langsung.`;
+                }, 1000);
+            }
+        }
+
+        function tampilkanSuksesResponse(alertBox, alertIcon, alertMsg, form, submitBtn) {
+            alertBox.className = "mx-8 mt-6 p-4 rounded-xl flex items-center gap-3 bg-emerald-50 text-emerald-800 border border-emerald-200 animate-fadeIn";
+            alertIcon.className = "fa-solid fa-circle-check text-xl";
+            alertMsg.innerHTML = `Alhamdulillah! Pendaftaran online Anda berhasil kami terima. Panitia akan segera menghubungi Anda melalui nomor WhatsApp yang terdaftar untuk verifikasi dokumen lebih lanjut.`;
+            alertBox.classList.remove('hidden');
+
+            form.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Formulir Pendaftaran`;
+            
+            renderWebData();
+            alertBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ADMIN CONTROLS LOGICS
+        function checkAdminLogin() {
+            const pin = document.getElementById('admin-pin').value;
+            if (pin === "1234") {
+                document.getElementById('admin-login').classList.add('hidden');
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.getElementById('admin-pin').value = "";
+            } else {
+                alert("PIN salah! Default PIN adalah 1234");
+            }
+        }
+
+        function logoutAdmin() {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('admin-login').classList.remove('hidden');
+        }
+
+        // GANTI TEMA WARNA PRESET (NEW IMPLEMENTATION)
+        function changeThemePreset(presetName) {
+            let colors = {};
+            if (presetName === 'hijau') {
+                colors = { primary: "#065f46", dark: "#022c22", light: "#ecfdf5", accent: "#f59e0b", accentHover: "#d97706", accentText: "#022c22" };
+            } else if (presetName === 'biru') {
+                colors = { primary: "#1e3a8a", dark: "#0f172a", light: "#eff6ff", accent: "#f59e0b", accentHover: "#d97706", accentText: "#0f172a" };
+            } else if (presetName === 'maroon') {
+                colors = { primary: "#7f1d1d", dark: "#450a0a", light: "#fef2f2", accent: "#fbbf24", accentHover: "#f59e0b", accentText: "#450a0a" };
+            } else if (presetName === 'tosca') {
+                colors = { primary: "#0f766e", dark: "#115e59", light: "#f0fdfa", accent: "#f59e0b", accentHover: "#d97706", accentText: "#115e59" };
+            }
+            
+            themePrimary = colors.primary;
+            themePrimaryDark = colors.dark;
+            themePrimaryLight = colors.light;
+            themeAccent = colors.accent;
+            themeAccentHover = colors.accentHover;
+            themeAccentText = colors.accentText;
+
+            // Simpan ke localstorage agar tidak ter-reset saat di-refresh
+            localStorage.setItem('yayasan_theme_primary', themePrimary);
+            localStorage.setItem('yayasan_theme_dark', themePrimaryDark);
+            localStorage.setItem('yayasan_theme_light', themePrimaryLight);
+            localStorage.setItem('yayasan_theme_accent', themeAccent);
+            localStorage.setItem('yayasan_theme_accent_hover', themeAccentHover);
+            localStorage.setItem('yayasan_theme_accent_text', themeAccentText);
+
+            applyThemeColors();
+            renderWebData();
+            alert("Skema warna website berhasil diubah menjadi tema " + presetName.toUpperCase() + "!");
+        }
+
+        // SIMPAN CONFIG GOOGLE SHEETS
+        function saveGSheetConfig() {
+            const url = document.getElementById('config-gsheet-url').value;
+            configGSheetUrl = url;
+            localStorage.setItem('yayasan_gsheet_url', url);
+            alert("URL Google Sheets berhasil disimpan!");
+            renderWebData();
+        }
+
+        // SIMPAN SETTINGAN FOTO
+        function savePhotosConfig() {
+            const heroUrl = document.getElementById('config-hero-photo').value;
+            const welcomeUrl = document.getElementById('config-welcome-photo').value;
+
+            configHeroPhoto = heroUrl;
+            configWelcomePhoto = welcomeUrl;
+
+            localStorage.setItem('yayasan_hero_photo', heroUrl);
+            localStorage.setItem('yayasan_welcome_photo', welcomeUrl);
+
+            alert("Tampilan foto web berhasil diperbarui!");
+            renderWebData();
+        }
+
+        // TAMBAH FOTO GALERI BARU
+        function addGalleryItem() {
+            const title = document.getElementById('galeri-title').value;
+            const url = document.getElementById('galeri-url').value;
+            const category = document.getElementById('galeri-category').value;
+
+            if(!title || !url) {
+                alert("Mohon isi judul dan link foto!");
+                return;
+            }
+
+            const newItem = {
+                id: Date.now(),
+                category: category,
+                title: title,
+                url: url
+            };
+
+            galleries.unshift(newItem);
+            localStorage.setItem('yayasan_galleries', JSON.stringify(galleries));
+            
+            document.getElementById('galeri-title').value = "";
+            document.getElementById('galeri-url').value = "";
+            
+            alert("Foto berhasil ditambahkan ke Galeri!");
+            renderWebData();
+        }
+
+        // HAPUS FOTO GALERI
+        function deleteGalleryItem(id) {
+            if(confirm("Hapus foto ini dari galeri?")) {
+                galleries = galleries.filter(item => item.id !== id);
+                localStorage.setItem('yayasan_galleries', JSON.stringify(galleries));
+                renderWebData();
+            }
+        }
+
+        // TAMBAH PENGUMUMAN BARU
+        function addAnnouncement() {
+            const title = document.getElementById('ann-title').value;
+            const content = document.getElementById('ann-content').value;
+
+            if(!title || !content) {
+                alert("Mohon isi judul dan isi pengumuman!");
+                return;
+            }
+
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const today = new Date().toLocaleDateString('id-ID', options);
+
+            const newItem = {
+                id: Date.now(),
+                date: today,
+                title: title,
+                content: content
+            };
+
+            announcements.unshift(newItem);
+            localStorage.setItem('yayasan_announcements', JSON.stringify(announcements));
+            
+            document.getElementById('ann-title').value = "";
+            document.getElementById('ann-content').value = "";
+            
+            alert("Pengumuman berhasil disiarkan!");
+            renderWebData();
+        }
+
+        // HAPUS PENGUMUMAN
+        function deleteAnnouncement(id) {
+            if(confirm("Hapus pengumuman ini?")) {
+                announcements = announcements.filter(item => item.id !== id);
+                localStorage.setItem('yayasan_announcements', JSON.stringify(announcements));
+                renderWebData();
+            }
+        }
+
+        // HAPUS DATA PENDAFTAR LOKAL
+        function deleteApplicant(index) {
+            if(confirm("Apakah Anda yakin ingin menghapus data backup pendaftar ini dari browser ini? (Data di Google Sheets Anda tidak akan terhapus)")) {
+                applicants.splice(index, 1);
+                localStorage.setItem('yayasan_applicants', JSON.stringify(applicants));
+                renderWebData();
+            }
+        }
+    </script>
+</body>
+</html>
